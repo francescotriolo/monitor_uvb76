@@ -1,6 +1,9 @@
 import numpy as np
 import soundfile as sf
 import pytest
+from itertools import islice
+import numpy as np
+from sorgenti import sorgente_con_riconnessione
 from funzioni import e_anomalo, etichetta_finestra, blocchi_audio, periodicita_da_flusso, rms_blocco, scrivi_riga, classifica_finestra, calcola_attesa
 
 def test_e_anomalo_sotto_soglia():
@@ -80,3 +83,24 @@ def test_calcola_attesa():
 	assert calcola_attesa(0, base=5.0) == 5.0
 	assert calcola_attesa(1, base=5.0) == 10.0
 	assert calcola_attesa(2000) == 300.0
+
+def sorgente_che_cade(n_blocchi):
+	def apri():
+		for _ in range(n_blocchi):
+			yield np.zeros(2400)
+		raise ConnectionError("caduta")
+	return apri
+
+def test_riconnessione_con_attese_crescenti():
+	attese = []
+	flusso = sorgente_con_riconnessione(sorgente_che_cade(3), attendi=attese.append)
+	primi = list(islice(flusso, 12))
+	assert sum(1 for b in primi if b is None) == 3
+	assert attese == [1.0, 2.0]
+
+def test_il_buco_svuota_il_buffer():
+	blocchi = list(blocchi_buzzer_sintetico(250)) + [None] + list(blocchi_buzzer_sintetico(250))
+	risultati = list(periodicita_da_flusso(blocchi))
+	secondi = [s for s, _, _ in risultati]
+	assert len(risultati) == 2
+	assert secondi == [0.0, 0.0]

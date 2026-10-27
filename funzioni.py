@@ -78,6 +78,10 @@ def periodicita_da_flusso(blocchi, blocchi_per_finestra=200, passo_blocchi=100, 
 	buffer = deque(maxlen=blocchi_per_finestra)
 	contatore = 0
 	for blocco in blocchi:
+		if blocco is None:
+			buffer.clear()
+			contatore = 0
+			continue
 		buffer.append(rms_blocco(blocco))
 		contatore += 1
 		if (contatore - blocchi_per_finestra) % passo_blocchi == 0 and len(buffer) == buffer.maxlen:

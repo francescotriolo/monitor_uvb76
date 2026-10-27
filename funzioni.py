@@ -100,3 +100,6 @@ def classifica_finestra(periodicita, energia, soglia=0.45):
 	if periodicita < soglia:
 		return "anomalia"
 	return "buzzer"
+
+def calcola_attesa(tentativo, base=1.0, tetto=300.0):
+	return min(base * 2 ** min(tentativo, 30), tetto)

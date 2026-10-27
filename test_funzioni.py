@@ -53,7 +53,7 @@ def blocchi_rumore(n_blocchi):
 		yield rng.normal(size=2400)
 
 def test_buzzer_sintetico_e_periodico():
-	valori = [v for _, v in periodicita_da_flusso(blocchi_buzzer_sintetico(400))]
+	valori = [v for _, v, _ in periodicita_da_flusso(blocchi_buzzer_sintetico(400))]
 	assert len(valori) == 3
 	assert all(v > 0.45 for v in valori), valori
 

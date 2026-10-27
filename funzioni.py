@@ -83,7 +83,8 @@ def periodicita_da_flusso(blocchi, blocchi_per_finestra=200, passo_blocchi=100, 
 		if (contatore - blocchi_per_finestra) % passo_blocchi == 0 and len(buffer) == buffer.maxlen:
 			valore = calcola_periodicita(np.array(buffer))
 			secondo = (contatore - blocchi_per_finestra) * durata_blocco
-			yield secondo, valore
+			energia = np.mean(buffer)
+			yield secondo, valore, energia
 
 def scrivi_riga(percorso, secondo, periodicita, energia):
 	nuovo = not os.path.exists(percorso)

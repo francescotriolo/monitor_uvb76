@@ -20,7 +20,8 @@ Audio files are not included in the repository. Put `buzzer.wav` and `voce.wav` 
 
 ```
 pip install -r requirements.txt
-python script_voce.py
+python script_voce.py        # whole-file analysis
+python flusso_simulato.py    # same analysis, replayed block by block as a simulated stream
 python -m pytest
 ```
 
@@ -29,7 +30,7 @@ python -m pytest
 What works today:
 
 - The detector analyses `.wav` files as described above.
-- A simulated stream (a recording replayed block by block, plus synthetic signals) is used to test the detector in different conditions. The streaming pipeline produces the same values as the whole-file analysis.
+- A simulated stream (a recording replayed block by block, plus synthetic signals) is used to test the detector in different conditions. The streaming pipeline produces the same values as the whole-file analysis on the two test recordings.
 - Each window is written to a CSV log with its timestamp, the second within the stream, periodicity and energy.
 - Each window is classified into one of three states: "buzzer", "anomaly" or "no signal".
 - The reconnection logic (increasing delays between attempts, so as not to flood the server) is implemented and tested with a simulated source that drops. It is not connected to a real source yet.
@@ -43,6 +44,10 @@ What works today:
 
 Not implemented yet: a watchdog (to detect a stream that stays connected but stops delivering audio), audio recording, and notifications.
 
+## A note on recordings
+
+Audio recordings are not included in this repository. They are meant for personal analysis only, so please don't redistribute them.
+
 ## Language note
 
 Code identifiers, comments and commit messages are in Italian.
@@ -53,3 +58,6 @@ Code identifiers, comments and commit messages are in Italian.
 | `periodicita_da_flusso` | periodicity over a stream |
 | `classifica_finestra` | window classifier |
 | `calcola_attesa` | reconnection delay |
+
+## License
+MIT

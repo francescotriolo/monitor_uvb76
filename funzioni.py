@@ -66,3 +66,6 @@ def blocchi_audio(percorso, durata_blocco=0.05):
 		if blocco.ndim == 2:
 			blocco = blocco[:, 0]
 		yield blocco
+
+def rms_blocco(blocco):
+	return np.sqrt(np.mean(blocco**2))

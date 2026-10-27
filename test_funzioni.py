@@ -1,5 +1,6 @@
 import numpy as np
 import soundfile as sf
+import pytest
 from funzioni import e_anomalo, etichetta_finestra, blocchi_audio
 
 def test_e_anomalo_sotto_soglia():
@@ -37,3 +38,6 @@ def test_ultimo_blocco_incompleto_scartato(tmp_path):
 
 	assert len(blocchi) == 2
 	assert blocchi[0].ndim == 1
+
+def test_rms_blocco_costante():
+	assert rms_blocco(np.full(100, 0.5)) == pytest.approx(0.5)

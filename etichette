@@ -1,0 +1,13 @@
+etichette = [
+	(0, 4, "buzzer"),
+	(4, 13, "silenzio"),
+	(13, 16, "primo callsign (NZhTI)"),
+	(16, 19, "secondo callsign"),
+	(20, 40, "messaggio"),
+	(41, 49, "silenzio"),
+	(50, 53, "callsign"),
+	(53, 56, "callsign x2"),
+	(57, 76, "messaggio"),
+	(76, 77, "priyom"),
+	(78, 82, "buzzer")
+]

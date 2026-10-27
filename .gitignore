@@ -1,0 +1,5 @@
+venv/
+*.wav
+*.ogg
+__pycache__/
+DS_Store

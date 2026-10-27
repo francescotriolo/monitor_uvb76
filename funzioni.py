@@ -1,5 +1,6 @@
 import soundfile as sf
 import numpy as np
+from collections import deque
 
 def carica_mono(percorso):
 	campioni, fs = sf.read(percorso)
@@ -69,3 +70,25 @@ def blocchi_audio(percorso, durata_blocco=0.05):
 
 def rms_blocco(blocco):
 	return np.sqrt(np.mean(blocco**2))
+
+def periodicita_da_flusso(blocchi, blocchi_per_finestra=200, passo_blocchi=100, durata_blocco=0.05):
+	buffer = deque(maxlen=blocchi_per_finestra)
+	contatore = 0
+	for blocco in blocchi:
+		buffer.append(rms_blocco(blocco))
+		contatore += 1
+		if (contatore - blocchi_per_finestra) % passo_blocchi == 0 and len(buffer) == buffer.maxlen:
+			valore = calcola_periodicita(np.array(buffer))
+			secondo = (contatore - blocchi_per_finestra) * durata_blocco
+			yield secondo, valore
+
+
+
+
+
+
+
+
+
+
+

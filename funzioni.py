@@ -1,5 +1,4 @@
 import soundfile as sf
-import matplotlib.pyplot as plt
 import numpy as np
 
 def carica_mono(percorso):

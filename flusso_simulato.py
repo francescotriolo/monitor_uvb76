@@ -5,3 +5,4 @@ for secondo, valore in periodicita_da_flusso(blocchi_buzzer_sintetico(400)):
 
 for secondo, valore in periodicita_da_flusso(blocchi_rumore(400)):
 	print("rumore", secondo, valore)
+	

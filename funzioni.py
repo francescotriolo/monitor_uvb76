@@ -1,5 +1,8 @@
 import soundfile as sf
 import numpy as np
+import csv
+import os
+from datetime import datetime, timezone
 from collections import deque
 
 def carica_mono(percorso):
@@ -81,3 +84,11 @@ def periodicita_da_flusso(blocchi, blocchi_per_finestra=200, passo_blocchi=100, 
 			valore = calcola_periodicita(np.array(buffer))
 			secondo = (contatore - blocchi_per_finestra) * durata_blocco
 			yield secondo, valore
+
+def scrivi_riga(percorso, secondo, periodicita, energia):
+	nuovo = not os.path.exists(percorso)
+	with open(percorso, "a", newline="") as f:
+		scrittore = csv.writer(f)
+		if nuovo:
+			scrittore.writerow(["timestamp", "secondo", "periodicita", "energia"])
+		scrittore.writerow([datetime.now(timezone.utc).isoformat(), secondo, periodicita, energia])

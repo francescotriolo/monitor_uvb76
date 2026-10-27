@@ -1,7 +1,7 @@
 import numpy as np
 import soundfile as sf
 import pytest
-from funzioni import e_anomalo, etichetta_finestra, blocchi_audio, periodicita_da_flusso, rms_blocco
+from funzioni import e_anomalo, etichetta_finestra, blocchi_audio, periodicita_da_flusso, rms_blocco, scrivi_riga
 
 def test_e_anomalo_sotto_soglia():
 	assert e_anomalo(0.03)
@@ -61,3 +61,11 @@ def blocchi_buzzer_rumoroso(n_blocchi, ampiezza_rumore, periodo=47):
 	rng = np.random.default_rng(0)
 	for blocco in blocchi_buzzer_sintetico(n_blocchi, periodo):
 		yield blocco + rng.normal(0, ampiezza_rumore, len(blocco))
+
+def test_scrivi_riga(tmp_path):
+	percorso = str(tmp_path / "log.csv")
+	scrivi_riga(percorso, 0.0, 0.5, 0.1)
+	scrivi_riga(percorso, 5.0, 0.4, 0.1)
+	with open(percorso) as f:
+		righe = f.readlines()
+	assert len(righe) == 3

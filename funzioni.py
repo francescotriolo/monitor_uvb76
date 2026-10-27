@@ -81,14 +81,3 @@ def periodicita_da_flusso(blocchi, blocchi_per_finestra=200, passo_blocchi=100, 
 			valore = calcola_periodicita(np.array(buffer))
 			secondo = (contatore - blocchi_per_finestra) * durata_blocco
 			yield secondo, valore
-
-
-
-
-
-
-
-
-
-
-

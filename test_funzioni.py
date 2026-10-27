@@ -1,7 +1,7 @@
 import numpy as np
 import soundfile as sf
 import pytest
-from funzioni import e_anomalo, etichetta_finestra, blocchi_audio
+from funzioni import e_anomalo, etichetta_finestra, blocchi_audio, periodicita_da_flusso, rms_blocco
 
 def test_e_anomalo_sotto_soglia():
 	assert e_anomalo(0.03)
@@ -41,3 +41,18 @@ def test_ultimo_blocco_incompleto_scartato(tmp_path):
 
 def test_rms_blocco_costante():
 	assert rms_blocco(np.full(100, 0.5)) == pytest.approx(0.5)
+
+def blocchi_buzzer_sintetico(n_blocchi, periodo=47):
+	for i in range(n_blocchi):
+		ampiezza = 1.0 if (i % periodo) < 35 else 0.1
+		yield np.full(2400, ampiezza)
+
+def blocchi_rumore(n_blocchi):
+	rng = np.random.default_rng(0)
+	for _ in range(n_blocchi):
+		yield rng.normal(size=2400)
+
+def test_buzzer_sintetico_e_periodico():
+	valori = [v for _, v in periodicita_da_flusso(blocchi_buzzer_sintetico(400))]
+	assert len(valori) == 3
+	assert all(v > 0.45 for v in valori), valori

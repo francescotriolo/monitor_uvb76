@@ -93,3 +93,10 @@ def scrivi_riga(percorso, secondo, periodicita, energia):
 		if nuovo:
 			scrittore.writerow(["timestamp", "secondo", "periodicita", "energia"])
 		scrittore.writerow([datetime.now(timezone.utc).isoformat(), secondo, periodicita, energia])
+
+def classifica_finestra(periodicita, energia, soglia=0.45):
+	if not np.isfinite(periodicita) or energia == 0:
+		return "nessun segnale"
+	if periodicita < soglia:
+		return "anomalia"
+	return "buzzer"

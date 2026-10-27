@@ -1,7 +1,7 @@
 import numpy as np
 import soundfile as sf
 import pytest
-from funzioni import e_anomalo, etichetta_finestra, blocchi_audio, periodicita_da_flusso, rms_blocco, scrivi_riga
+from funzioni import e_anomalo, etichetta_finestra, blocchi_audio, periodicita_da_flusso, rms_blocco, scrivi_riga, classifica_finestra
 
 def test_e_anomalo_sotto_soglia():
 	assert e_anomalo(0.03)
@@ -69,3 +69,6 @@ def test_scrivi_riga(tmp_path):
 	with open(percorso) as f:
 		righe = f.readlines()
 	assert len(righe) == 3
+
+def test_classifica_finestra():
+	assert classifica_finestra(float("nan"), 0.0) == "nessun segnale"

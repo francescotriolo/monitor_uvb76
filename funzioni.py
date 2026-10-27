@@ -52,4 +52,6 @@ def etichetta_finestra(inizio, fine, etichette):
 		if sovrapposizione > sovrapposizione_max:
 			sovrapposizione_max = sovrapposizione
 			migliore = nome
+		elif sovrapposizione == sovrapposizione_max and sovrapposizione > 0:
+			migliore = "misto"
 	return migliore		

@@ -55,3 +55,14 @@ def etichetta_finestra(inizio, fine, etichette):
 		elif sovrapposizione == sovrapposizione_max and sovrapposizione > 0:
 			migliore = "misto"
 	return migliore		
+
+def blocchi_audio(percorso, durata_blocco=0.05):
+	fs = sf.info(percorso).samplerate
+	dimensione = int(durata_blocco * fs)
+	campioni, fs = sf.read(percorso)
+	for blocco in sf.blocks(percorso, blocksize=dimensione):
+		if len(blocco) < dimensione:
+			break
+		if blocco.ndim == 2:
+			blocco = blocco[:, 0]
+		yield blocco
